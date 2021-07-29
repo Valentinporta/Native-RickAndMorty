@@ -32,7 +32,11 @@ const Home = ({navigation}) => {
             const response = res.data.results.map(char => ({
                 name: char.name,
                 image: char.image,
-                id: char.id
+                id: char.id,
+                species: char.species,
+                gender: char.gender,
+                status: char.status,
+                origin: char.origin.name
             }))
             setCharacters(response)
         })
@@ -57,7 +61,7 @@ const Home = ({navigation}) => {
                 }>
 
                 {characters.map(item => (
-                    <TouchableOpacity key={item.id} onPress={() => navigation.navigate('Character Information')}>
+                    <TouchableOpacity key={item.id} onPress={() => navigation.navigate('Character Information', item)}>
                         <Card name={item.name} image={item.image} />
                     </TouchableOpacity>
                     )

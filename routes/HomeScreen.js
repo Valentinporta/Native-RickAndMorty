@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../components/home/Home";
 import Search from '../components/search/Search';
 import { AntDesign, Ionicons  } from '@expo/vector-icons';
 import Favorites from '../components/favorites/Favorites';

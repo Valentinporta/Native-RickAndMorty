@@ -1,12 +1,18 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { useScrollToTop } from '@react-navigation/native'
+import React, { useRef } from 'react'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import Navbar from '../navbar/Navbar'
 
 const Favorites = () => {
+    const ref = useRef(null)
+
+
+    useScrollToTop(ref)
     return (
         <View style={styles.container}>
             <Navbar />
             <Text>Favorites Screen</Text>
+            <ScrollView ref={ref}></ScrollView>
         </View>
     )
 }

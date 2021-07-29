@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { View, Text, StyleSheet, RefreshControl, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import axios from 'axios'
 import Navbar from '../navbar/Navbar'
 import AppLoading from 'expo-app-loading'
 import Card from '../card/Card'
+import { useScrollToTop } from '@react-navigation/native'
 
 /*
 --------------------TODO------------------------------------------------------
@@ -18,6 +19,7 @@ const Home = () => {
     const [characters, setCharacters] = useState({})
     const [loaded, setLoaded] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
+    const ref = useRef(null)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -37,6 +39,9 @@ const Home = () => {
         })
     }
 
+    // By clicking on Home icon tab, it scrolls to the top of the page
+    useScrollToTop(ref)
+
     if (loaded) {
         return (
             
@@ -45,7 +50,7 @@ const Home = () => {
                 <Navbar />
 
                 <Text style={styles.title}>Character List</Text>
-                <ScrollView contentContainerStyle={styles.cardList} refreshControl={
+                <ScrollView ref={ref} contentContainerStyle={styles.cardList} refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}

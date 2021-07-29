@@ -5,6 +5,7 @@ import Home from "../components/home/Home";
 import Search from '../components/search/Search';
 import { AntDesign, Ionicons  } from '@expo/vector-icons';
 import Favorites from '../components/favorites/Favorites';
+import HomeStack from './HomeStack';
 
 const Tab = createBottomTabNavigator()
 
@@ -24,7 +25,7 @@ const HomeScreen = () => {
     return(
         <NavigationContainer>
             <Tab.Navigator tabBarOptions={tabBarOptions}>
-                <Tab.Screen name='Home' component={Home} options={{
+                <Tab.Screen name='Home' component={HomeStack} options={{
                     tabBarIcon: ({focused}) => (
                         <Ionicons name="home-sharp" size={25} color={focused ? 'white' : 'black'} />
                     )

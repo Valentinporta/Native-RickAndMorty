@@ -8,14 +8,13 @@ import { useScrollToTop } from '@react-navigation/native'
 
 /*
 --------------------TODO------------------------------------------------------
-Bottom tab: search tab, (favorites)
 Character details screen to display more info onPress on a character
 Use localstorage to save favorites and user account info on login
 */
 
 
 // Will display a list of movies vertically for now
-const Home = () => {
+const Home = ({navigation}) => {
     const [characters, setCharacters] = useState({})
     const [loaded, setLoaded] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
@@ -58,7 +57,7 @@ const Home = () => {
                 }>
 
                 {characters.map(item => (
-                    <TouchableOpacity key={item.id}>
+                    <TouchableOpacity key={item.id} onPress={() => navigation.navigate('Character Information')}>
                         <Card name={item.name} image={item.image} />
                     </TouchableOpacity>
                     )

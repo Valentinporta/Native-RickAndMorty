@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Search from '../components/search/Search';
 import { AntDesign, Ionicons  } from '@expo/vector-icons';
 import Favorites from '../components/favorites/Favorites';
 import HomeStack from './HomeStack';
+import SearchStack from './SearchStack';
 
 const Tab = createBottomTabNavigator()
 
@@ -29,7 +29,7 @@ const HomeScreen = () => {
                         <Ionicons name="home-sharp" size={25} color={focused ? 'white' : 'black'} />
                     )
                 }}/>
-                <Tab.Screen name='Search' component={Search} options={{
+                <Tab.Screen name='Search' component={SearchStack} options={{
                     tabBarIcon: ({focused}) => (
                         <AntDesign name='search1' size={25} color={focused ? 'white' : 'black'} />
                     )

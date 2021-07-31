@@ -12,7 +12,7 @@ const Card = (props) => {
 
             <View style={styles.textContainer}>
                 <Text
-                    style={(props.name.length > 20 ? styles.longerText : (props.name.length > 16 && props.name.length < 20) ? styles.longText : styles.text)}
+                    style={(props.name.length > 16 ? styles.longText : styles.text)}
                 >
                     {props.name}
                 </Text>
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black',
         paddingTop: 10,
+        width: width / 2
     },
     poster: {
         resizeMode: 'contain',
@@ -45,14 +46,9 @@ const styles = StyleSheet.create({
     longText: {
         fontSize: 16,
         color: '#97CE4C',
-        textAlign: 'center'
-    },
-    longerText: {
-        fontSize: 12,
-        color: '#97CE4C',
         textAlign: 'center',
-        flexWrap: 'wrap'
-    }
+        flexShrink: 1
+    },
 })
 
 export default Card

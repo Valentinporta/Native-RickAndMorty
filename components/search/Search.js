@@ -1,13 +1,17 @@
 import { useScrollToTop } from '@react-navigation/native'
 import React, { useState, useRef, useCallback } from 'react'
-import { View, TextInput, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, RefreshControl } from 'react-native'
+import { View, TextInput, Text, StyleSheet, Dimensions, RefreshControl, FlatList, Alert } from 'react-native'
 import Card from '../card/Card'
 import Navbar from '../navbar/Navbar'
 import axios from 'axios'
+import ErrorMsg from '../errorMsg/ErrorMsg'
 
 const Search = ({ navigation }) => {
     const [input, setInput] = useState('')
-    const [characters, setCharacters] = useState({})
+    const [page, setPage] = useState(1)
+    const [errorMsg, setErrorMsg] = useState('')
+    const [nextPage, setNextPage] = useState(false)
+    const [characters, setCharacters] = useState([])
     const [refreshing, setRefreshing] = useState(false)
     const ref = useRef(null)
 
@@ -18,22 +22,73 @@ const Search = ({ navigation }) => {
         }, 1500)
     })
 
-    const handleChange = async () => {
+    const findCharacter = async () => {
         if (input) {
-            await axios.get(`https://rickandmortyapi.com/api/character/?name=${input}`).then(res => {
-                const response = res.data.results.map(char => ({
-                    name: char.name,
-                    image: char.image,
-                    id: char.id,
-                    species: char.species,
-                    gender: char.gender,
-                    status: char.status,
-                    origin: char.origin.name
-                }))
-                setCharacters(response)
-            })
+            try {
+                await axios.get(`https://rickandmortyapi.com/api/character/?page=${1}&name=${input}`)
+                .then(res => {
+                    const response = res.data.results.map(char => ({
+                        name: char.name,
+                        image: char.image,
+                        id: char.id,
+                        species: char.species,
+                        gender: char.gender,
+                        status: char.status,
+                        origin: char.origin.name
+                    }))
+                    const next = res.data.info.next
+                    if (!next) {
+                        setNextPage(false)
+                        setPage(1)
+                    } else {
+                        setNextPage(true)
+                        setPage(prev => prev + 1)
+                    }
+                    setErrorMsg('')
+                    setCharacters(response)
+                })
+            } catch (err) {
+                setErrorMsg('Sorry! No characters found!')
+                setCharacters([])
+                setPage(1)
+                setNextPage(false)
+            }
         } else {
-            setCharacters({})
+            setCharacters([])
+            setPage(1)
+            setNextPage(false)
+        }
+    }
+
+    const getNextPage = async () => {
+        try {
+            await axios.get(`https://rickandmortyapi.com/api/character/?page=${page}&name=${input}`)
+                    .then(res => {
+                        const response = res.data.results.map(char => ({
+                            name: char.name,
+                            image: char.image,
+                            id: char.id,
+                            species: char.species,
+                            gender: char.gender,
+                            status: char.status,
+                            origin: char.origin.name
+                        }))
+                        const next = res.data.info.next
+                        if (!next) {
+                            setNextPage(false)
+                            setPage(1)
+                        } else {
+                            setNextPage(true)
+                            setPage(prev => prev + 1)
+                        }
+                        setErrorMsg('')
+                        setCharacters([...characters].concat(response))
+                    })
+        } catch (err) {
+            setErrorMsg('Sorry! No characters found!')
+            setCharacters([])
+            setPage(1)
+            setNextPage(false)
         }
     }
 
@@ -48,26 +103,31 @@ const Search = ({ navigation }) => {
                 onChangeText={input => setInput(input)}
                 value={input}
                 placeholder='Search...'
-                onSubmitEditing={handleChange}
+                onSubmitEditing={findCharacter}
             />
-            <ScrollView
-                ref={ref}
-                contentContainerStyle={styles.cardList}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }   
-            >
-            {characters.length && characters.map(item => (
-                <TouchableOpacity key={item.id} onPress={() => navigation.navigate('Character Information', item)}>
-                    <Card name={item.name} image={item.image} />
-                </TouchableOpacity>
-                )
-            )}
-
-            </ScrollView>    
+            {!errorMsg ? <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                    ref={ref}
+                    data={characters}
+                    renderItem={({ item }) => (
+                        <Card
+                            unique={item.id}
+                            onPress={() => navigation.navigate('Character Information', item)}
+                            name={item.name}
+                            image={item.image}
+                        />
+                    )}
+                    key={({ item }) => item.id}
+                    onEndReached={nextPage ? () => getNextPage() : null}
+                    onEndReachedThreshold={0.1}
+                    contentContainerStyle={styles.cardList}
+                    numColumns={2}
+            /> : <ErrorMsg />}
         </View>
     )
 }
@@ -91,8 +151,6 @@ const styles = StyleSheet.create({
     },
     cardList: {
         width: width,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         paddingTop: 10
     },
 })

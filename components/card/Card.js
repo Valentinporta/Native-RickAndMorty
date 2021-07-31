@@ -1,21 +1,25 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 
 const Card = (props) => {
     // Will receive img, title through props for now
     return (
-        <View style={styles.container}>
+        <TouchableOpacity key={props.unique} onPress={props.onPress} style={styles.container}>
         
             <View>
                 <Image source={{uri: props.image}} style={styles.poster} />
             </View>
 
             <View style={styles.textContainer}>
-                <Text style={(props.name.length > 20 ? styles.longText : styles.text)}>{props.name}</Text>
+                <Text
+                    style={(props.name.length > 20 ? styles.longerText : (props.name.length > 16 && props.name.length < 20) ? styles.longText : styles.text)}
+                >
+                    {props.name}
+                </Text>
             </View>
             
         
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -42,6 +46,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#97CE4C',
         textAlign: 'center'
+    },
+    longerText: {
+        fontSize: 12,
+        color: '#97CE4C',
+        textAlign: 'center',
+        flexWrap: 'wrap'
     }
 })
 

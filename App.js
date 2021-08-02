@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import Signup from './components/signup/Signup';
 import HomeScreen from './routes/HomeScreen';
 import LandingPage from './routes/LandingPage';
 
+// Set landing page as default screen, ask if user is signed in, if false show landing page, if true show homescreen
+// Validations
 const App = () => {
   const [enter, setEnter] = useState(false)
 
   const handlePress = () => {
     setEnter(true)
   }
-{/* <LandingPage handlePress={handlePress}/> */}
+
   if (enter) {
     return (
       <HomeScreen />
     );
   } else {
     return (
-      
-      <Signup />
+      <LandingPage handlePress={handlePress}/>
     )
   }
 }

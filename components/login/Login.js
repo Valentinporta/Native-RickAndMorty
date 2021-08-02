@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, View, TextInput, Button, Alert, Dimensions } from 'react-native'
 import firebase from '../../database/firebase'
 
-const Login = () => {
+const Login = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
@@ -26,6 +26,7 @@ const Login = () => {
                     email: '',
                     password: ''
                 })
+                navigation.navigate('HomeScreen')
             })
             .catch(error => setUserInfo({ errorMsg: error.message }))
         }

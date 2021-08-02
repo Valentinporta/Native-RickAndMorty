@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput, Button, Dimensions, Alert } from 'react-na
 import firebase from '../../database/firebase'
 
 
-const Signup = () => {
+const Signup = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
@@ -31,6 +31,7 @@ const Signup = () => {
                     email: '',
                     password: ''
                 })
+                navigation.navigate('LogIn')
             })
             .catch(error => setUserInfo({ errorMsg: error.message}))
         }

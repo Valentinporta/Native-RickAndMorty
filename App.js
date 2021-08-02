@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HomeScreen from './routes/HomeScreen';
-import LandingPage from './routes/LandingPage';
+import firebase from './database/firebase'
+import LandingScreen from './routes/LandingScreen';
 
 // Set landing page as default screen, ask if user is signed in, if false show landing page, if true show homescreen
 // Validations
 const App = () => {
-  const [enter, setEnter] = useState(false)
 
-  const handlePress = () => {
-    setEnter(true)
-  }
+  const user = firebase.auth().currentUser
 
-  if (enter) {
+  if (user) {
     return (
       <HomeScreen />
     );
   } else {
     return (
-      <LandingPage handlePress={handlePress}/>
+      <LandingScreen />
     )
   }
 }

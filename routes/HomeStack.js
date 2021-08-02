@@ -14,7 +14,8 @@ const HomeStack = () => {
                 },
                 headerTitleStyle: {
                     display: 'none'
-                }
+                },
+                headerLeft: () => null
             }}/>
             <Stack.Screen name='Character Information' component={CharDetails} options={{
                 headerStyle: {

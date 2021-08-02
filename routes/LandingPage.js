@@ -4,10 +4,13 @@ import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 const LandingPage = ({ handlePress }) => {
     return (
         <View style={styles.container}>
+
             <Image style={styles.image} source={{uri: 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/c50a4a55883023.5996f8afa3f5c.gif'}}/>
+            
             <TouchableOpacity onPress={handlePress} style={styles.btn}>
                 <Text style={styles.text}>Enter</Text>
             </TouchableOpacity>
+
         </View>
     )
 }

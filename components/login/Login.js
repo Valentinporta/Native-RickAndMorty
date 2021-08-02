@@ -1,30 +1,25 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, Button, Dimensions, Alert } from 'react-native'
+import { StyleSheet, View, TextInput, Button, Alert, Dimensions } from 'react-native'
 import firebase from '../../database/firebase'
 
-
-const Signup = () => {
+const Login = () => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
         password: '',
         isLoading: false
-      })
+    })
 
-    const createUser = () => {
+    const loginUser = () => {
         if (!userInfo.email && !userInfo.password) {
-            Alert.alert('Please enter email and password!')
+            Alert.alert('Please enter username and password!')
         } else {
             setUserInfo({
                 ...userInfo,
                 isLoading: true
             })
-            firebase.auth().createUserWithEmailAndPassword(userInfo.email, userInfo.password)
-            .then(res => {
-                const user = res.user
-                user.updateProfile({
-                    displayName: userInfo.username
-                })
+            firebase.auth().signInWithEmailAndPassword(userInfo.email, userInfo.password)
+            .then(() => {
                 setUserInfo({
                     isLoading: false,
                     username: '',
@@ -32,16 +27,15 @@ const Signup = () => {
                     password: ''
                 })
             })
-            .catch(error => setUserInfo({ errorMsg: error.message}))
+            .catch(error => setUserInfo({ errorMsg: error.message }))
         }
     }
 
     return (
         <View style={styles.container}>
-            <TextInput onChangeText={val => setUserInfo({...userInfo, username: val})} value={userInfo.username} placeholderTextColor='#97CE4C' placeholder='Username' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, email: val})} value={userInfo.email} placeholderTextColor='#97CE4C' placeholder='Email' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, password: val})} value={userInfo.password} placeholderTextColor='#97CE4C' secureTextEntry={true} placeholder='Password' style={styles.input} />
-            <Button onPress={() => createUser()} title='Sign up' color='#97CE4C' />
+            <Button onPress={() => loginUser()} title='Log in' color='#97CE4C' />
         </View>
     )
 }
@@ -67,4 +61,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Signup
+export default Login

@@ -5,6 +5,7 @@ import Navbar from '../navbar/Navbar'
 import AppLoading from 'expo-app-loading'
 import Card from '../card/Card'
 import { useScrollToTop } from '@react-navigation/native'
+import firebase from '../../database/firebase'
 
 const Home = ({navigation}) => {
     const [characters, setCharacters] = useState([])
@@ -12,6 +13,8 @@ const Home = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [page, setPage] = useState(1)
     const ref = useRef(null)
+
+    const user = firebase.auth().currentUser
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -44,7 +47,7 @@ const Home = ({navigation}) => {
 
     if (loaded) {
         return (
-            
+        
             <View style={styles.container}>
 
                 <Navbar />
@@ -73,6 +76,7 @@ const Home = ({navigation}) => {
                     contentContainerStyle={styles.cardList}
                     numColumns={2}
                 />
+                {console.log(user)}
             </View>
         )
     } else {

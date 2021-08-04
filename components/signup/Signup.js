@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, Button, Dimensions, Alert } from 'react-native'
-import firebase from '../../database/firebase'
-
+import React, { useState, useContext } from 'react'
+import { View, StyleSheet, TextInput, Button, Dimensions } from 'react-native'
+import { AuthContext } from '../../context/AuthProvider'
 
 const Signup = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState({
@@ -9,40 +8,16 @@ const Signup = ({ navigation }) => {
         email: '',
         password: '',
         isLoading: false
-      })
+    })
 
-    const createUser = () => {
-        if (!userInfo.email && !userInfo.password) {
-            Alert.alert('Please enter email and password!')
-        } else {
-            setUserInfo({
-                ...userInfo,
-                isLoading: true
-            })
-            firebase.auth().createUserWithEmailAndPassword(userInfo.email, userInfo.password)
-            .then(res => {
-                const user = res.user
-                user.updateProfile({
-                    displayName: userInfo.username
-                })
-                setUserInfo({
-                    isLoading: false,
-                    username: '',
-                    email: '',
-                    password: ''
-                })
-                navigation.navigate('LogIn')
-            })
-            .catch(error => setUserInfo({ errorMsg: error.message}))
-        }
-    }
+    const { register } = useContext(AuthContext)
 
     return (
         <View style={styles.container}>
             <TextInput onChangeText={val => setUserInfo({...userInfo, username: val})} value={userInfo.username} placeholderTextColor='#97CE4C' placeholder='Username' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, email: val})} value={userInfo.email} placeholderTextColor='#97CE4C' placeholder='Email' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, password: val})} value={userInfo.password} placeholderTextColor='#97CE4C' secureTextEntry={true} placeholder='Password' style={styles.input} />
-            <Button onPress={() => createUser()} title='Sign up' color='#97CE4C' />
+            <Button onPress={() => { register(userInfo.username, userInfo.email, userInfo.password); navigation.navigate('LogIn') }} title='Sign up' color='#97CE4C' />
         </View>
     )
 }

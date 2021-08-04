@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, TextInput, Button, Alert, Dimensions } from 'react-native'
-import firebase from '../../database/firebase'
+import React, { useState, useContext } from 'react';
+import { StyleSheet, View, TextInput, Button, Alert, Dimensions } from 'react-native';
+import { AuthContext } from '../../context/AuthProvider'
 
 const Login = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState({
@@ -10,33 +10,13 @@ const Login = ({ navigation }) => {
         isLoading: false
     })
 
-    const loginUser = () => {
-        if (!userInfo.email && !userInfo.password) {
-            Alert.alert('Please enter username and password!')
-        } else {
-            setUserInfo({
-                ...userInfo,
-                isLoading: true
-            })
-            firebase.auth().signInWithEmailAndPassword(userInfo.email, userInfo.password)
-            .then(() => {
-                setUserInfo({
-                    isLoading: false,
-                    username: '',
-                    email: '',
-                    password: ''
-                })
-                navigation.navigate('HomeScreen')
-            })
-            .catch(error => setUserInfo({ errorMsg: error.message }))
-        }
-    }
+    const { logIn } = useContext(AuthContext)
 
     return (
         <View style={styles.container}>
             <TextInput onChangeText={val => setUserInfo({...userInfo, email: val})} value={userInfo.email} placeholderTextColor='#97CE4C' placeholder='Email' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, password: val})} value={userInfo.password} placeholderTextColor='#97CE4C' secureTextEntry={true} placeholder='Password' style={styles.input} />
-            <Button onPress={() => loginUser()} title='Log in' color='#97CE4C' />
+            <Button onPress={() => { logIn(userInfo.email, userInfo.password); navigation.navigate('HomeScreen')}} title='Log in' color='#97CE4C' />
         </View>
     )
 }

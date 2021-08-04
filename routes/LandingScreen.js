@@ -7,18 +7,16 @@ const Stack = createStackNavigator()
 
 const LandingScreen = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name='LandingStack' component={LandingStack} options={{
-                    headerStyle: {
-                        height: 0
-                    },
-                    headerTitleStyle: {
-                        display: 'none'
-                    },
-                }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen name='LandingStack' component={LandingStack} options={{
+                headerStyle: {
+                    height: 0
+                },
+                headerTitleStyle: {
+                    display: 'none'
+                },
+            }} />
+        </Stack.Navigator>
     )
 }
 

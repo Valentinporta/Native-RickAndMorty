@@ -19,8 +19,13 @@ const HomeStack = () => {
             }}/>
             <Stack.Screen name='Character Information' component={CharDetails} options={{
                 headerStyle: {
-                    backgroundColor: '#97CE4C'
+                    backgroundColor: '#97CE4C',
+                    height: 60
                 },
+                headerTitleStyle: {
+                    fontSize: 24
+                },
+                headerLeft: () => null
             }}/>
         </Stack.Navigator>
     )

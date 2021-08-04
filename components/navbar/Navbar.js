@@ -1,8 +1,10 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { AuthContext } from '../../context/AuthProvider';
 
 const Navbar = () => {
+    const { logOut } = useContext(AuthContext)
     return (
         <View style={styles.container}>
         
@@ -10,9 +12,9 @@ const Navbar = () => {
                 <AntDesign name='dingding' size={30} color='black' />
             </View>
 
-            <View style={styles.user}>
+            <TouchableOpacity style={styles.user} onPress={async () => await logOut()}>
                 <AntDesign name='user' size={30} color='black' />
-            </View>
+            </TouchableOpacity>
 
         </View>
     )
@@ -20,7 +22,7 @@ const Navbar = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 40,
+        paddingTop: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#97CE4C',

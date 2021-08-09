@@ -1,11 +1,12 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useContext } from 'react'
 import { View, Text, StyleSheet, RefreshControl, Dimensions, FlatList } from 'react-native'
 import axios from 'axios'
 import Navbar from '../navbar/Navbar'
 import AppLoading from 'expo-app-loading'
 import Card from '../card/Card'
 import { useScrollToTop } from '@react-navigation/native'
-import firebase from '../../database/firebase'
+import firebase, { db } from '../../database/firebase'
+import { AuthContext } from '../../context/AuthProvider'
 
 const Home = ({navigation}) => {
     const [characters, setCharacters] = useState([])
@@ -13,6 +14,7 @@ const Home = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [page, setPage] = useState(1)
     const ref = useRef(null)
+    const { favorites, setFavorites } = useContext(AuthContext)
 
     const user = firebase.auth().currentUser
 
@@ -76,13 +78,13 @@ const Home = ({navigation}) => {
                     contentContainerStyle={styles.cardList}
                     numColumns={2}
                 />
-                {console.log(user)}
+                {console.log(favorites)}
             </View>
         )
     } else {
         return (
             <AppLoading
-                startAsync={() => getCharacters()}
+                startAsync={() => {getCharacters(); db.doc(`users/${user.uid}`).get().then(resp => setFavorites(resp.data().favorites))}}
                 onFinish={() => setLoaded(true)}
                 onError={() => console.warn}
             />

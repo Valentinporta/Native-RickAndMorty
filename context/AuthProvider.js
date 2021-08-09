@@ -5,14 +5,18 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
+    const [favorites, setFavorites] = useState([])
+    
 
     const register = async (username, email, password) => {
         try {
             await firebase.auth().createUserWithEmailAndPassword(email, password)
-            await db.collection('users').add({
-                username: username,
-                email: email,
-                password: password
+            const {uid} = firebase.auth().currentUser
+            await db.doc(`users/${uid}`).set({
+                username,
+                email,
+                password,
+                favorites: []
             })
         } catch (error) {
             console.log(error)
@@ -31,14 +35,54 @@ export const AuthProvider = ({ children }) => {
        await firebase.auth().signOut()
     }
 
+    const addFavorite = async (uid, id, name, species, gender, status, origin, image) => {
+        try {
+            return await db.doc(`users/${uid}`).update({
+                favorites: firebase.firestore.FieldValue.arrayUnion({
+                        id,
+                        name,
+                        species,
+                        gender,
+                        status,
+                        origin,
+                        image
+                    })
+                })
+            } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const removeFavorite = async (uid, id, name, species, gender, status, origin, image) => {
+        try {
+            return await db.doc(`users/${uid}`).update({
+                favorites: firebase.firestore.FieldValue.arrayRemove({
+                    id,
+                    name,
+                    species,
+                    gender,
+                    status,
+                    origin,
+                    image
+                })
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
+                favorites,
+                setFavorites,
                 register,
                 logIn,
-                logOut
+                logOut,
+                addFavorite,
+                removeFavorite
             }}
         >
 

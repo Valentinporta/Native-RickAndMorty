@@ -1,14 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { AntDesign  } from '@expo/vector-icons'
+import { AuthContext } from '../../context/AuthProvider'
+import firebase from '../../database/firebase'
 
 const CharDetails = ({ route }) => {
     const [fav, setFav] = useState(false)
-    const {image, name, species, gender, status, origin} = route.params
+    const {id, image, name, species, gender, status, origin} = route.params
+    const {addFavorite, removeFavorite, favorites, setFavorites} = useContext(AuthContext)
+    const {uid} = firebase.auth().currentUser
 
-    const handleFav = () => {
-        // I need to receive a CB to add and remove the char from list of favorites state
+    useEffect(() => {
+        const charFound = favorites.find(char => char.id === id)
+
+        if (charFound) {
+            setFav(true)
+        }
+    }, [])
+
+    const addFav = () => {
         setFav(prev => !prev)
+        addFavorite(uid, id, name, species, gender, status, origin, image)
+        setFavorites([...favorites].concat({id, name, species, gender, status, origin, image}))
+    }
+
+    const remFav = () => {
+        setFav(prev => !prev)
+        removeFavorite(uid, id, name, species, gender, status, origin, image)
+        setFavorites([...favorites].filter(favorites => favorites.id === id))
     }
 
     return (
@@ -20,7 +39,7 @@ const CharDetails = ({ route }) => {
                     size={34}
                     color={fav ? 'red' : 'white'}
                     style={styles.icon}
-                    onPress={handleFav}
+                    onPress={fav ? remFav : addFav}
                 />
                 <Image source={{uri: image}} style={styles.img} />
                 <Text style={styles.name}>Name:</Text>       

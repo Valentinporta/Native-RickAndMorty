@@ -138,18 +138,14 @@ const width = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: bgColor,
         height: '100%'
     },
     text: {
-        // color: darkGreenLightBlue,
         fontSize: 30,
         textAlign: 'center'
     },
     input: {
-        // color: darkGreenLightBlue,
         borderWidth: 1,
-        // borderColor: darkGreenLightBlue
     },
     cardList: {
         width: width,

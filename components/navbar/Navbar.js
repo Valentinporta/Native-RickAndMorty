@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // backgroundColor: bgColor,
         width: '100%',
     },
     logo: {

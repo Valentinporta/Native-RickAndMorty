@@ -4,7 +4,6 @@ import LandingPage from './LandingPage'
 import Signup from '../components/signup/Signup'
 import Login from '../components/login/Login'
 import HomeScreen from './HomeScreen';
-import { AuthProvider } from '../context/AuthProvider'
 
 const Stack = createStackNavigator()
 

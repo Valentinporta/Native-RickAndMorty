@@ -29,7 +29,6 @@ const width = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: bgColor,
         paddingTop: 10,
         width: width / 2
     },
@@ -42,12 +41,10 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        // color: darkGreenLightBlue,
         fontSize: 20
     },
     longText: {
         fontSize: 16,
-        // color: darkGreenLightBlue,
         textAlign: 'center',
         flexShrink: 1
     },

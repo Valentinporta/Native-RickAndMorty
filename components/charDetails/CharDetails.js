@@ -56,17 +56,14 @@ const CharDetails = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: bgColor,
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     charInfo: {
         borderWidth: 2,
-        // borderColor: darkGreenLightBlue,
         borderRadius: 10,
         padding: 15,
-        // backgroundColor: darkGreenLightBlue,
         maxWidth: 250,
         flexWrap: 'wrap'
     },

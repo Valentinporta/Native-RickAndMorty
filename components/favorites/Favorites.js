@@ -38,7 +38,6 @@ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: bgColor,
         width: width,
         height: '100%',
     },
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         textAlign: 'center',
-        // color: darkGreenLightBlue
     }
 })
 

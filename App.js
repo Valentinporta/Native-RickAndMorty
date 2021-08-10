@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HomeScreen from './routes/HomeScreen';
 import firebase from './database/firebase'
 import LandingScreen from './routes/LandingScreen';
@@ -8,15 +8,24 @@ import { NavigationContainer } from '@react-navigation/native';
 // Set landing page as default screen, ask if user is signed in, if false show landing page, if true show homescreen
 // Validations
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
 
-  const user = firebase.auth().currentUser
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
+    }
+  })
+
+  // const user = firebase.auth().currentUser
 
   return (
     <NavigationContainer>
 
       <AuthProvider>
 
-        { user ? <HomeScreen /> : <LandingScreen />}
+        { loggedIn ? <HomeScreen /> : <LandingScreen />}
 
       </AuthProvider>
       

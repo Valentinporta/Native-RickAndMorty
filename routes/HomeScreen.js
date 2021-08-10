@@ -1,9 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons  } from '@expo/vector-icons';
-import Favorites from '../components/favorites/Favorites';
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
+import FavoritesStack from './FavoritesStack';
 
 const Tab = createBottomTabNavigator()
 
@@ -34,7 +34,7 @@ const HomeScreen = () => {
                     <AntDesign name='search1' size={25} color={focused ? 'white' : 'black'} />
                 )
             }}/>
-            <Tab.Screen name='Favorites' component={Favorites} options={{
+            <Tab.Screen name='Favorites' component={FavoritesStack} options={{
                 tabBarIcon: ({focused}) => (
                     <AntDesign name='heart' size={25} color={focused ? 'white' : 'black'} />
                 )

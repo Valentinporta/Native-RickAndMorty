@@ -14,7 +14,7 @@ const Home = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [page, setPage] = useState(1)
     const ref = useRef(null)
-    const { favorites, setFavorites } = useContext(AuthContext)
+    const { setFavorites } = useContext(AuthContext)
 
     const user = firebase.auth().currentUser
 
@@ -78,7 +78,6 @@ const Home = ({navigation}) => {
                     contentContainerStyle={styles.cardList}
                     numColumns={2}
                 />
-                {console.log(favorites)}
             </View>
         )
     } else {

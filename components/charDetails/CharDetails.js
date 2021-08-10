@@ -27,7 +27,7 @@ const CharDetails = ({ route }) => {
     const remFav = () => {
         setFav(prev => !prev)
         removeFavorite(uid, id, name, species, gender, status, origin, image)
-        setFavorites([...favorites].filter(favorites => favorites.id === id))
+        setFavorites([...favorites].filter(favorites => favorites.id !== id))
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useContext } from 'react'
+import React, { useState, useCallback, useRef, useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, RefreshControl, Dimensions, FlatList } from 'react-native'
 import axios from 'axios'
 import Navbar from '../navbar/Navbar'
@@ -15,6 +15,9 @@ const Home = ({navigation}) => {
     const [page, setPage] = useState(1)
     const ref = useRef(null)
     const { setFavorites } = useContext(AuthContext)
+    const abortController = new AbortController()
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
 
     const user = firebase.auth().currentUser
 
@@ -27,25 +30,36 @@ const Home = ({navigation}) => {
 
     const getCharacters = async () => {
         if (page <= 34) {
-            await axios.get(`https://rickandmortyapi.com/api/character?page=${page}`)
-            .then(res => {
-                const response = res.data.results.map(char => ({
-                    name: char.name,
-                    image: char.image,
-                    id: char.id,
-                    species: char.species,
-                    gender: char.gender,
-                    status: char.status,
-                    origin: char.origin.name
-                }))
-                setCharacters([...characters].concat(response))
-                setPage(prev => prev + 1)
-            })
+            try {
+                await axios.get(`https://rickandmortyapi.com/api/character?page=${page}`, { cancelToken: source.token })
+                .then(res => {
+                    const response = res.data.results.map(char => ({
+                        name: char.name,
+                        image: char.image,
+                        id: char.id,
+                        species: char.species,
+                        gender: char.gender,
+                        status: char.status,
+                        origin: char.origin.name
+                    }))
+                    setCharacters([...characters].concat(response))
+                    setPage(prev => prev + 1)
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
     // By clicking on Home icon tab, it scrolls to the top of the page
     useScrollToTop(ref)
+
+    useEffect (() => {
+        
+        return () => {
+            source.cancel()
+        }
+    }, [])
 
     if (loaded) {
         return (

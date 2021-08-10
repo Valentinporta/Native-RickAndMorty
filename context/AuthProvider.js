@@ -6,7 +6,11 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
     const [favorites, setFavorites] = useState([])
-    
+    const [dark, setDark] = useState(false)
+
+    const toggle = () => {
+        setDark(prev => !prev)
+    }
 
     const register = async (username, email, password) => {
         try {
@@ -82,7 +86,10 @@ export const AuthProvider = ({ children }) => {
                 logIn,
                 logOut,
                 addFavorite,
-                removeFavorite
+                removeFavorite,
+                dark,
+                setDark,
+                toggle
             }}
         >
 

@@ -4,13 +4,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthProvider';
 
 const Navbar = () => {
-    const { logOut } = useContext(AuthContext)
+    const { logOut, dark, toggle } = useContext(AuthContext)
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, dark ? {backgroundColor: '#97CE4C'} : {backgroundColor: '#B7E4F9FF'}]}>
         
-            <View style={styles.logo}>
+            <TouchableOpacity style={styles.logo} onPress={() => toggle()}>
                 <AntDesign name='dingding' size={30} color='black' />
-            </View>
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.user} onPress={async () => await logOut()}>
                 <AntDesign name='user' size={30} color='black' />
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#97CE4C',
+        // backgroundColor: bgColor,
         width: '100%',
     },
     logo: {

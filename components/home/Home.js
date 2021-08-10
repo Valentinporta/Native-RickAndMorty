@@ -14,8 +14,7 @@ const Home = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [page, setPage] = useState(1)
     const ref = useRef(null)
-    const { setFavorites } = useContext(AuthContext)
-    const abortController = new AbortController()
+    const { setFavorites, dark } = useContext(AuthContext)
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
 
@@ -55,7 +54,6 @@ const Home = ({navigation}) => {
     useScrollToTop(ref)
 
     useEffect (() => {
-        
         return () => {
             source.cancel()
         }
@@ -64,11 +62,11 @@ const Home = ({navigation}) => {
     if (loaded) {
         return (
         
-            <View style={styles.container}>
+            <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
 
                 <Navbar />
 
-                <Text style={styles.title}>Character List</Text>
+                <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}>Character List</Text>
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -110,7 +108,7 @@ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        // backgroundColor: bgColor,
         width: width,
         height: '100%',
     },
@@ -120,7 +118,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         textAlign: 'center',
-        color: '#97CE4C'
+        // color: darkGreenLightBlue
     }
 })
 

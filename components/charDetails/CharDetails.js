@@ -7,7 +7,7 @@ import firebase from '../../database/firebase'
 const CharDetails = ({ route }) => {
     const [fav, setFav] = useState(false)
     const {id, image, name, species, gender, status, origin} = route.params
-    const {addFavorite, removeFavorite, favorites, setFavorites} = useContext(AuthContext)
+    const {addFavorite, removeFavorite, favorites, setFavorites, dark} = useContext(AuthContext)
     const {uid} = firebase.auth().currentUser
 
     useEffect(() => {
@@ -31,9 +31,9 @@ const CharDetails = ({ route }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
         
-            <View style={styles.charInfo}>
+            <View style={[styles.charInfo, dark ? {borderColor: '#97CE4C', backgroundColor: '#97CE4C'} : {borderColor: '#B7E4F9FF', backgroundColor: '#B7E4F9FF'}]}>
                 <AntDesign
                     name="heart"
                     size={34}
@@ -42,7 +42,7 @@ const CharDetails = ({ route }) => {
                     onPress={fav ? remFav : addFav}
                 />
                 <Image source={{uri: image}} style={styles.img} />
-                <Text style={styles.name}>Name:</Text>       
+                <Text style={[styles.name]}>Name:</Text>       
                 <Text style={styles.text}>{name}</Text>       
                 <Text style={styles.text}>Species: {species}</Text>            
                 <Text style={styles.text}>Gender: {gender}</Text>            
@@ -56,17 +56,17 @@ const CharDetails = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        // backgroundColor: bgColor,
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     charInfo: {
         borderWidth: 2,
-        borderColor: '#97CE4C',
+        // borderColor: darkGreenLightBlue,
         borderRadius: 10,
         padding: 15,
-        backgroundColor: '#97CE4C',
+        // backgroundColor: darkGreenLightBlue,
         maxWidth: 250,
         flexWrap: 'wrap'
     },

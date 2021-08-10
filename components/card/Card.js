@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { AuthContext } from '../../context/AuthProvider'
+
 
 const Card = (props) => {
-    // Will receive img, title through props for now
+    const { dark } = useContext(AuthContext)
     return (
-        <TouchableOpacity key={props.unique} onPress={props.onPress} style={styles.container}>
+        <TouchableOpacity key={props.unique} onPress={props.onPress} style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
         
             <View>
                 <Image source={{uri: props.image}} style={styles.poster} />
@@ -12,7 +14,7 @@ const Card = (props) => {
 
             <View style={styles.textContainer}>
                 <Text
-                    style={(props.name.length > 16 ? styles.longText : styles.text)}
+                    style={props.name.length > 16 ? [styles.longText, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}] : [styles.text, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}
                 >
                     {props.name}
                 </Text>
@@ -27,7 +29,7 @@ const width = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        // backgroundColor: bgColor,
         paddingTop: 10,
         width: width / 2
     },
@@ -40,12 +42,12 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        color: '#97CE4C',
+        // color: darkGreenLightBlue,
         fontSize: 20
     },
     longText: {
         fontSize: 16,
-        color: '#97CE4C',
+        // color: darkGreenLightBlue,
         textAlign: 'center',
         flexShrink: 1
     },

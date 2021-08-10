@@ -1,10 +1,11 @@
 import { useScrollToTop } from '@react-navigation/native'
-import React, { useState, useRef, useCallback } from 'react'
-import { View, TextInput, Text, StyleSheet, Dimensions, RefreshControl, FlatList, Alert } from 'react-native'
+import React, { useState, useRef, useCallback, useContext } from 'react'
+import { View, TextInput, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native'
 import Card from '../card/Card'
 import Navbar from '../navbar/Navbar'
 import axios from 'axios'
 import ErrorMsg from '../errorMsg/ErrorMsg'
+import { AuthContext } from '../../context/AuthProvider'
 
 const Search = ({ navigation }) => {
     const [input, setInput] = useState('')
@@ -14,6 +15,7 @@ const Search = ({ navigation }) => {
     const [characters, setCharacters] = useState([])
     const [refreshing, setRefreshing] = useState(false)
     const ref = useRef(null)
+    const { dark } = useContext(AuthContext)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -94,11 +96,11 @@ const Search = ({ navigation }) => {
 
     useScrollToTop(ref)
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
             <Navbar />
-            <Text style={styles.text}>Search for a character:</Text>
+            <Text style={[styles.text, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}>Search for a character:</Text>
             <TextInput
-                style={styles.input}
+                style={[styles.input, dark ? {color: '#97CE4C', borderColor: '#97CE4C'} : {color: '#B7E4F9FF', borderColor: '#B7E4F9FF'}]}
                 autoCapitalize= 'words'
                 onChangeText={input => setInput(input)}
                 value={input}
@@ -136,18 +138,18 @@ const width = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        // backgroundColor: bgColor,
         height: '100%'
     },
     text: {
-        color: '#97CE4C',
+        // color: darkGreenLightBlue,
         fontSize: 30,
         textAlign: 'center'
     },
     input: {
-        color: '#97CE4C',
+        // color: darkGreenLightBlue,
         borderWidth: 1,
-        borderColor: '#97CE4C'
+        // borderColor: darkGreenLightBlue
     },
     cardList: {
         width: width,

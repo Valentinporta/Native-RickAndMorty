@@ -13,7 +13,7 @@ const Favorites = ({ navigation }) => {
     return (
         <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
             <Navbar />
-            <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}>Favorites List</Text>
+            <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: 'black'}]}>Favorites List</Text>
             <FlatList
                 ref={ref}
                 data={favorites}

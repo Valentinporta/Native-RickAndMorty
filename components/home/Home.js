@@ -66,7 +66,7 @@ const Home = ({navigation}) => {
 
                 <Navbar />
 
-                <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}>Character List</Text>
+                <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: 'black'}]}>Character List</Text>
                 <FlatList
                     refreshControl={
                         <RefreshControl

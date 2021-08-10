@@ -98,9 +98,9 @@ const Search = ({ navigation }) => {
     return (
         <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
             <Navbar />
-            <Text style={[styles.text, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}>Search for a character:</Text>
+            <Text style={[styles.text, dark ? {color: '#97CE4C'} : {color: 'black'}]}>Search for a character:</Text>
             <TextInput
-                style={[styles.input, dark ? {color: '#97CE4C', borderColor: '#97CE4C'} : {color: '#B7E4F9FF', borderColor: '#B7E4F9FF'}]}
+                style={[styles.input, dark ? {color: '#97CE4C', borderColor: '#97CE4C'} : {color: 'black', borderColor: 'black'}]}
                 autoCapitalize= 'words'
                 onChangeText={input => setInput(input)}
                 value={input}
@@ -146,6 +146,8 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
+        width: width / 1.25,
+        marginLeft: '10%',
     },
     cardList: {
         width: width,

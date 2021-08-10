@@ -14,7 +14,7 @@ const Card = (props) => {
 
             <View style={styles.textContainer}>
                 <Text
-                    style={props.name.length > 16 ? [styles.longText, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}] : [styles.text, dark ? {color: '#97CE4C'} : {color: '#B7E4F9FF'}]}
+                    style={props.name.length > 16 ? [styles.longText, dark ? {color: '#97CE4C'} : {color: 'black'}] : [styles.text, dark ? {color: '#97CE4C'} : {color: 'black'}]}
                 >
                     {props.name}
                 </Text>

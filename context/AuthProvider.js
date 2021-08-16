@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
     const [favorites, setFavorites] = useState([])
     const [dark, setDark] = useState(false)
+    const [loaded, setLoaded] = useState(false)
 
     const toggle = () => {
         setDark(prev => !prev)
@@ -37,6 +38,8 @@ export const AuthProvider = ({ children }) => {
 
     const logOut = async () => {
        await firebase.auth().signOut()
+       await setLoaded(false)
+       await setUser(null)
     }
 
     const addFavorite = async (uid, id, name, species, gender, status, origin, image) => {
@@ -89,7 +92,9 @@ export const AuthProvider = ({ children }) => {
                 removeFavorite,
                 dark,
                 setDark,
-                toggle
+                toggle,
+                loaded,
+                setLoaded
             }}
         >
 

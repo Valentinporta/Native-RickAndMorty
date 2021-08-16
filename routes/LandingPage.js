@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useLayoutEffect, useCallback } from 'react'
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { Asset, useAssets } from 'expo-asset'
 
 const LandingPage = ({ navigation }) => {
+    const [assets] = useAssets([require('../assets/rickandmortyimg.png'), require('../assets/rickandmortygif.gif')])
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: null,
+            headerShown: false,
+        })
+    }, [navigation])
+
     return (
         <View style={styles.container}>
 

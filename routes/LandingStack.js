@@ -14,6 +14,7 @@ const LandingStack = () => {
                 headerStyle: {
                     height: 0
                 },
+                title: null,
                 headerTitleStyle: {
                     display: 'none'
                 }
@@ -36,7 +37,7 @@ const LandingStack = () => {
                 },
                 headerLeft: () => null
             }} />
-            <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
+            <Stack.Screen name='HomeTest' component={HomeScreen} options={{
                 headerStyle: {
                     height: 0
                 },

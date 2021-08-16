@@ -1,24 +1,21 @@
 import React, { useState, useCallback, useRef, useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, RefreshControl, Dimensions, FlatList } from 'react-native'
 import axios from 'axios'
-import Navbar from '../navbar/Navbar'
 import AppLoading from 'expo-app-loading'
 import Card from '../card/Card'
 import { useScrollToTop } from '@react-navigation/native'
-import firebase, { db } from '../../database/firebase'
+import { db } from '../../database/firebase'
 import { AuthContext } from '../../context/AuthProvider'
 
 const Home = ({navigation}) => {
     const [characters, setCharacters] = useState([])
-    const [loaded, setLoaded] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
+    const [loaded, setLoaded] = useState(false)
     const [page, setPage] = useState(1)
     const ref = useRef(null)
-    const { setFavorites, dark } = useContext(AuthContext)
+    const { user, setFavorites, dark } = useContext(AuthContext)
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
-
-    const user = firebase.auth().currentUser
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -50,10 +47,10 @@ const Home = ({navigation}) => {
         }
     }
 
-    // By clicking on Home icon tab, it scrolls to the top of the page
     useScrollToTop(ref)
 
     useEffect (() => {
+        
         return () => {
             source.cancel()
         }
@@ -63,9 +60,6 @@ const Home = ({navigation}) => {
         return (
         
             <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
-
-                <Navbar />
-
                 <Text style={[styles.title, dark ? {color: '#97CE4C'} : {color: 'black'}]}>Character List</Text>
                 <FlatList
                     refreshControl={
@@ -95,7 +89,10 @@ const Home = ({navigation}) => {
     } else {
         return (
             <AppLoading
-                startAsync={() => {getCharacters(); db.doc(`users/${user.uid}`).get().then(resp => setFavorites(resp.data().favorites))}}
+                startAsync={() => {
+                    getCharacters();
+                    db.doc(`users/${user.uid}`).get().then(resp => setFavorites(resp.data().favorites))
+                }}
                 onFinish={() => setLoaded(true)}
                 onError={() => console.warn}
             />

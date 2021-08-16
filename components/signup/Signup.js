@@ -2,12 +2,11 @@ import React, { useState, useContext } from 'react'
 import { View, StyleSheet, TextInput, Button, Dimensions } from 'react-native'
 import { AuthContext } from '../../context/AuthProvider'
 
-const Signup = ({ navigation }) => {
+const Signup = () => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
         password: '',
-        isLoading: false
     })
 
     const { register } = useContext(AuthContext)
@@ -17,7 +16,7 @@ const Signup = ({ navigation }) => {
             <TextInput onChangeText={val => setUserInfo({...userInfo, username: val})} value={userInfo.username} placeholderTextColor='#97CE4C' placeholder='Username' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, email: val})} value={userInfo.email} placeholderTextColor='#97CE4C' placeholder='Email' style={styles.input} />
             <TextInput onChangeText={val => setUserInfo({...userInfo, password: val})} value={userInfo.password} placeholderTextColor='#97CE4C' secureTextEntry={true} placeholder='Password' style={styles.input} />
-            <Button onPress={() => { register(userInfo.username, userInfo.email, userInfo.password); navigation.navigate('LogIn') }} title='Sign up' color='#97CE4C' />
+            <Button onPress={() => register(userInfo.username, userInfo.email, userInfo.password)} title='Sign up and log in' color='#97CE4C' />
         </View>
     )
 }

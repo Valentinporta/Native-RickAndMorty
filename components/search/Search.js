@@ -2,7 +2,6 @@ import { useScrollToTop } from '@react-navigation/native'
 import React, { useState, useRef, useCallback, useContext } from 'react'
 import { View, TextInput, Text, StyleSheet, Dimensions, RefreshControl, FlatList } from 'react-native'
 import Card from '../card/Card'
-import Navbar from '../navbar/Navbar'
 import axios from 'axios'
 import ErrorMsg from '../errorMsg/ErrorMsg'
 import { AuthContext } from '../../context/AuthProvider'
@@ -97,7 +96,6 @@ const Search = ({ navigation }) => {
     useScrollToTop(ref)
     return (
         <View style={[styles.container, dark ? {backgroundColor: 'black'} : {backgroundColor: 'white'}]}>
-            <Navbar />
             <Text style={[styles.text, dark ? {color: '#97CE4C'} : {color: 'black'}]}>Search for a character:</Text>
             <TextInput
                 style={[styles.input, dark ? {color: '#97CE4C', borderColor: '#97CE4C'} : {color: 'black', borderColor: 'black'}]}

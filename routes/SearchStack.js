@@ -1,13 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Search from '../components/search/Search'
 import CharDetails from '../components/charDetails/CharDetails'
-import { AuthContext } from '../context/AuthProvider'
 
 const Stack = createStackNavigator()
 
 const SearchStack = () => {
-    const { dark } = useContext(AuthContext)
     return (
         <Stack.Navigator initialRouteName='SearchScreen'>
             <Stack.Screen name='SearchScreen' component={Search} options={{
@@ -21,11 +19,7 @@ const SearchStack = () => {
             }}/>
             <Stack.Screen name='Character Information' component={CharDetails} options={{
                 headerStyle: {
-                    backgroundColor: dark ? '#97CE4C' : '#B7E4F9FF',
-                    height: 60
-                },
-                headerTitleStyle: {
-                    fontSize: 24
+                    height: 0
                 },
                 headerLeft: () => null
             }}/>

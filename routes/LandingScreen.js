@@ -5,6 +5,7 @@ import LandingStack from './LandingStack';
 const Stack = createStackNavigator()
 
 const LandingScreen = () => {
+
     return (
         <Stack.Navigator>
             <Stack.Screen name='LandingStack' component={LandingStack} options={{

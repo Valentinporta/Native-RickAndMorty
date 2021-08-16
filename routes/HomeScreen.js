@@ -1,16 +1,43 @@
-import React, { useContext } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons  } from '@expo/vector-icons';
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
 import FavoritesStack from './FavoritesStack';
 import { AuthContext } from '../context/AuthProvider';
+import { TouchableOpacity } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
+import firebase from '../database/firebase'
 
 const Tab = createBottomTabNavigator()
 
-const HomeScreen = () => {
-    const { dark } = useContext(AuthContext)
+const HomeScreen = ({ navigation }) => {
+    const { dark, setUser } = useContext(AuthContext)
     const activeColor = dark ? 'white' : '#FAFD7CFF'
+
+    firebase.auth().onAuthStateChanged(async(fbUser) => {
+        if (!fbUser) {
+            await setUser(null)
+        }
+    })
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: '',
+            headerStyle: {
+                backgroundColor: dark ? '#97CE4C' : '#B7E4F9FF'
+            },
+            headerRight: () => (
+                <TouchableOpacity
+                    style={{flexDirection: 'row'}}
+                    onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                >
+                <AntDesign name='user' size={30} color='black' style={{paddingRight: 10}}/>
+                </TouchableOpacity>
+            ),
+            headerLeft: () => null
+        })
+    }, [navigation, dark])
 
     const tabBarOptions = {
         activeTintColor: activeColor,
@@ -24,7 +51,7 @@ const HomeScreen = () => {
             fontSize: 16
         }
       }
-
+    
     return(
         <Tab.Navigator tabBarOptions={tabBarOptions}>
             <Tab.Screen name='Home' component={HomeStack} options={{
